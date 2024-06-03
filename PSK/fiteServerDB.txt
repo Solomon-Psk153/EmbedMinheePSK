@@ -1,0 +1,42 @@
+create database Fite default character set utf8;
+
+use Fite;
+
+SET FOREIGN_KEY_CHECKS=0;
+
+create table User(
+	email varchar(50) not null comment "사용자가 입력한 이메일",
+	randomStr varchar(10) null comment "앱을 다시 설치한 사용자를 위한 인증 수단",
+	latestUse datetime not null comment "사용자가 앱을 최근에 이용한 시간",
+	
+	constraint pk_email primary key(email)
+) comment "사용자의 정보를 저장: 사용자(이메일, 랜덤 문자열, 최근 사용일)";
+
+create table Locker(
+	lockerNum int not null comment "사물함의 고유 번호",
+	email varchar(50) null comment "사물함을 빌리고 있는 사람의 이메일",
+	
+	constraint pk_lockerNum primary key(lockerNum),
+	constraint fk_email foreign key(email) references User(email) on delete set null on update cascade
+) comment "사물함의 정보를 저장: 사물함(사물함 번호, 사용자 이메일)";
+
+create table StartTime(
+	location varchar(100) not null comment "사물함이 존재하는 위치",
+	semesterStart varchar(10) not null comment "사물함의 위치에서 사물함을 이용할 수 있는 시간",
+	
+	constraint pk_location primary key(location)
+) comment "학기 시작 시간: 시작 시간(위치, 학기 시작 시간)";
+
+SET FOREIGN_KEY_CHECKS=1;
+insert into Locker value(1, null), (2, null), (3, null), (4, null);
+insert into StartTime value("목포해양대학교_1", "3/1");
+insert into StartTime value("목포해양대학교_2", "9/1");
+select * from Locker;
+select * from User;
+select * from StartTime;
+
+create event delete_old_emails
+on schedule every 8 hour
+starts '2024-01-01 00:00:00'
+do
+	delete from User where latestUse < now() - interval 1 year;

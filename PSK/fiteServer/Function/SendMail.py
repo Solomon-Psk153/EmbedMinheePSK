@@ -1,3 +1,5 @@
+# 메일을 smtp를 사용해서 보내는 기능을 하는 파일
+
 import smtplib  # SMTP 사용을 위한 모듈
 import re  # Regular Expression을 활용하기 위한 모듈
 from email.mime.multipart import MIMEMultipart  # 메일의 Data 영역의 메시지를 만드는 모듈

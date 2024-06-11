@@ -1,7 +1,8 @@
+# 이메일을 검사해서 사용자가 존재하면 O, 그렇지 않으면 X를 리턴하는 파일
+
 from flask_restful import Resource, reqparse
 from DB import *
 
-# 이메일을 검사해서 사용자가 존재하면 O, 그렇지 않으면 X를 리턴한다.
 class IsReallyMe(Resource):
     def post(self):
         

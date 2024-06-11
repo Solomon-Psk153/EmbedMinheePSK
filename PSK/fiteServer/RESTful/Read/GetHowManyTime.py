@@ -1,8 +1,9 @@
+# 사용자가 현재 위치하는 곳(대학교)의 1학기, 2학기 시작시간을 통해 현재 얼마나 사물함을 이용할 수 있는지 초단위로 리턴하는 파일
+
 from flask_restful import Resource, reqparse
 from datetime import datetime, timedelta
 from DB import *
 
-# 사용자가 현재 위치하는 곳의 1학기, 2학기 시작시간을 통해 현재 얼마나 사물함을 이용할 수 있는지 초단위로 리턴한다.
 class GetHowManyTime(Resource):
     def post(self):
         

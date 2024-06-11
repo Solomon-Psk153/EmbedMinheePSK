@@ -1,3 +1,5 @@
+// ESP32에서 오는 요청을 수행하는 역할을 하는 파일
+
 #include <SoftwareSerial.h>
 
 #define RX_PIN 11 // 3

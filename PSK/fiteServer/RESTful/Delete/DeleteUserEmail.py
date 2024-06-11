@@ -1,8 +1,9 @@
+# 사용자의 이메일을 삭제하는 파일
+
 from flask_restful import Resource, reqparse
 from DB import *
 from flask import jsonify
 
-# 사용자의 이메일을 삭제한다.
 class DeleteUserEmail(Resource):
 	
     def post(self):

@@ -1,3 +1,5 @@
+# 시스템 등록을 위해서 이메일 등록하기를 눌렀을 때, 형식을 확인하고 응답 코드를 저장하는 파일
+
 from flask import session
 from flask_restful import Resource, reqparse
 from DB import User, db
@@ -7,7 +9,6 @@ from datetime import timedelta
 import redis
 import re
 
-# 시스템 등록을 위해서 이메일 등록하기를 눌렀을 때, 형식을 확인하고 응답 코드를 저장하는 코드
 class RegisterEmailRequest(Resource):
     def post(self):
         

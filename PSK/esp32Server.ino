@@ -1,3 +1,5 @@
+// 서버에서 오는 요청을 아두이노에게 전달하고 아두이노에서 오는 응답을 와이파이로 서버에게 제공해 주는 역할
+
 #include <Arduino.h>
 #include <WiFi.h>
 #include <ArduinoJson.h>

@@ -1,10 +1,11 @@
+# 사용자를 확인해서 사물함을 빌리는 기능을 하는 파일
+
 from flask_restful import Resource, reqparse
 from flask import request
 from DB import *
 import json, time
 import paho.mqtt.client as mqtt
 
-# 사물함을 빌리는 기능을 하는 API 코드
 class CreateBorrow(Resource):
     
     # MQTT 프로토콜을 이용하기 위해서 설정할 값들을 지정한다.

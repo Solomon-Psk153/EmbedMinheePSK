@@ -1,8 +1,9 @@
+# 락커들의 상태를 가지고 오는 파일
+
 from flask_restful import Resource
 from DB import Locker
 from flask import jsonify
 
-# 락커의 상태를 가지고 오는 코드
 class GetLockerStatus(Resource):
     def get(self):
         

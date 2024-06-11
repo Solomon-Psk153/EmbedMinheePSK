@@ -1,10 +1,11 @@
+# 임시 redis DB에 저장된 임시 코드를 확인하는 파일
+
 from flask import session
 from flask_restful import Resource, reqparse
 from DB import User, db
 import redis
 from datetime import datetime, timezone
 
-# 임시 redis DB에 저장된 임시 코드를 사용하기 위해 확인하는 코드
 class CheckVerifyCode(Resource):
     
     def post(self):

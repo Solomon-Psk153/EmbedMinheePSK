@@ -1,7 +1,8 @@
+# 휴대폰의 사용하기 버튼을 누르면 사용자를 확인하는 기능을 하는 파일
+
 from flask_restful import Resource, reqparse
 from DB import *
 
-# 휴대폰의 사용하기 버튼을 누르면 사용자를 확인하는 기능을 하는 코드
 class UseSystem(Resource):
 	
     def post(self):

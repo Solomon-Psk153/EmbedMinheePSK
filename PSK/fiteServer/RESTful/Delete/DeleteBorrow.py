@@ -1,9 +1,10 @@
+# 빌린 사물함을 삭제하도록 하는 기능을 가진 파일
+
 from flask_restful import Resource, reqparse
 from DB import *
 import json, time
 import paho.mqtt.client as mqtt
 
-# 빌린 사물함을 삭제하도록 하는 기능을 가진 코드
 class DeleteBorrow(Resource):
     
     # MQTT 프로토콜을 이용하기 위해서 설정할 값들

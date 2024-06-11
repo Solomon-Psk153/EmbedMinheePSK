@@ -13,14 +13,17 @@ class MailProvider(object):
     
     def sendMail(self):
         
+        # smtp 메일을 보내기 위해 설정해야 하는 값들, 원래는 앱 비밀번호를 파일로 철저하게 관리해야 한다.
         gmailSmtpServer = "smtp.gmail.com"
         gmailPort = 465
         myAccount = "psk153777@gmail.com"
         myPassword = "fznl rudj ndua wihu"
         
+        # 안전한 매일을 전송하기 위한 설정과 로그인
         smtp = smtplib.SMTP_SSL(gmailSmtpServer, gmailPort)
         smtp.login(myAccount, myPassword)
         
+        # 멀티파트(파일도 첨부 가능)로 메일을 보내기 위해서 목적지와 내용을 적음
         msg = MIMEMultipart()
         msg['Subject'] = self.subject
         msg['From'] = myAccount
@@ -30,9 +33,12 @@ class MailProvider(object):
                 self.subject,
                 self.code
             )
+		
+		# 메일의 내용
         msg.attach(MIMEText(body, 'html'))
         
         try:
+			# 메일을 보내고 오류가 없다면, 메일을 성공적으로 보냈다고 리턴과 응답 코드를 튜플 형식으로 보냄
             smtp.sendmail(myAccount, self.dest, msg.as_string())
             return {'message': 'send exist email success'}, 201
         except smtplib.SMTPDataError as e:
@@ -40,6 +46,7 @@ class MailProvider(object):
         except Exception as e:
             return {'message': 'email not found:{}'.format(e)}, 404
         
+	# 메일에 인증코드를 보내기 위해 문자열 조정 후
     @staticmethod
     def randomCodeCreator():
         return ''.join(
@@ -48,6 +55,7 @@ class MailProvider(object):
                 ) for _ in range(8)
             )
     
+    # 메일의 형식 문자열
     @staticmethod
     def ContentTemplate(subject, code):
         return f"""

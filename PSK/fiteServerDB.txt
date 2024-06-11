@@ -1,9 +1,14 @@
+
+# 데이터베이스는 utf8로 설정, 안 그러면 데이터베이스 안에서 한글이 깨짐
 create database Fite default character set utf8;
 
 use Fite;
 
+# 외래키 제약 잠깐 꺼둠
 SET FOREIGN_KEY_CHECKS=0;
 
+
+# 사용자에 대한 정보를 저장하는 테이블. 앱을 다시 설치하면 TinyDB에 있는 데이터가 삭제되기 때문에 별도의 코드를 따로 저장해 둔다. 사용자는 앱을 최근에 이용한 시간을 통해 1년 이상되면 자동으로 데이터베이스에서 삭제되도록 설정한다.
 create table User(
 	email varchar(50) not null comment "사용자가 입력한 이메일",
 	randomStr varchar(10) null comment "앱을 다시 설치한 사용자를 위한 인증 수단",
@@ -12,6 +17,8 @@ create table User(
 	constraint pk_email primary key(email)
 ) comment "사용자의 정보를 저장: 사용자(이메일, 랜덤 문자열, 최근 사용일)";
 
+
+# 사물함을 누가 빌렸는지 저장하고 있는 테이블, email은 어떤 사용자가 사용하고 있는지 나타낸다.
 create table Locker(
 	lockerNum int not null comment "사물함의 고유 번호",
 	email varchar(50) null comment "사물함을 빌리고 있는 사람의 이메일",
@@ -20,6 +27,7 @@ create table Locker(
 	constraint fk_email foreign key(email) references User(email) on delete set null on update cascade
 ) comment "사물함의 정보를 저장: 사물함(사물함 번호, 사용자 이메일)";
 
+# 어떤 위치에서 사물함이 운영되고 있는지 나중에 추가 확장을 위해서 만든 테이블
 create table StartTime(
 	location varchar(100) not null comment "사물함이 존재하는 위치",
 	semesterStart varchar(10) not null comment "사물함의 위치에서 사물함을 이용할 수 있는 시간",
@@ -27,7 +35,10 @@ create table StartTime(
 	constraint pk_location primary key(location)
 ) comment "학기 시작 시간: 시작 시간(위치, 학기 시작 시간)";
 
+# 외래키 제약 켜둠
 SET FOREIGN_KEY_CHECKS=1;
+
+# 필수 데이터 입력 및 검사
 insert into Locker value(1, null), (2, null), (3, null), (4, null);
 insert into StartTime value("목포해양대학교_1", "3/1");
 insert into StartTime value("목포해양대학교_2", "9/1");
@@ -35,6 +46,7 @@ select * from Locker;
 select * from User;
 select * from StartTime;
 
+# 매 8시간마다 시간을 검사해서 현재 시간에 비해 사용 기간이 1년 이하인 사용자는 데이터베이스에서 삭제되도록 이벤트 설정
 create event delete_old_emails
 on schedule every 8 hour
 starts '2024-01-01 00:00:00'

@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from datetime import datetime, timedelta
 from DB import *
 
+# 사용자가 현재 위치하는 곳의 1학기, 2학기 시작시간을 통해 현재 얼마나 사물함을 이용할 수 있는지 초단위로 리턴한다.
 class GetHowManyTime(Resource):
     def post(self):
         
@@ -12,15 +13,18 @@ class GetHowManyTime(Resource):
         
         args = parser.parse_args(strict=True)
         
+        # 1학기, 2학기
         location1 = args['location1']
         location2 = args['location2']
         
+        # 해당 위치에서 1학기와, 2학기가 존재하는지 검색하고 없으면 해당 지역이 없다고 표시한다.
         findLocation1 = StartTime.query.filter( (StartTime.location == location1) ).first()
         findLocation2 = StartTime.query.filter( (StartTime.location == location2) ).first()
         
         if findLocation1 is None or findLocation2 is None:
             return {'message': 'location not found'}, 404
         
+        # 해당 지역이 존재하면 해당 지역에서 학기 시작 시간을 구해서 현재 시간과 매치 시킨다. 1학기, 2학기 기간에만 시간 값이 양수가 되도록 한다.
         try:
             firstStart = findLocation1.semesterStart
             secondStart = findLocation2.semesterStart

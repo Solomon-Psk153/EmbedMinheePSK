@@ -1,7 +1,11 @@
+# 아래 파일은 MySQL에 있는 속성들을 파이썬 객체로 변환하기 위한 코드가 모여 있다.
+
+# 필요한 패키지: sqlalchemy에서 지원하는 데이터 타입들이 대부분이다.
 from .DBShare import db
 from sqlalchemy import Column, Integer, String, DateTime, BigInteger, ForeignKey
 from datetime import datetime, timezone
 
+#사용자 계정
 class User(db.Model):
     
     __tablename__ = 'User'
@@ -29,11 +33,13 @@ class User(db.Model):
         {'comment': '사용자의 정보를 저장: 사용자(이메일, 랜덤 문자열)'}
     )
     
+    # 초기화(생성자) 함수에서 데이터를 입력할 수 있도록 해야 객체가 올바르게 생성된다.
     def __init__(self, email, randomStr, latestUse):
         self.email=email
         self.randomStr=randomStr
         self.latestUse=latestUse
     
+# 사물함 정보
 class Locker(db.Model):
     __tablename__ = 'Locker'
     
@@ -58,7 +64,8 @@ class Locker(db.Model):
     def __init__(self, lockerNum, email):
         self.lockerNum=lockerNum
         self.email=email
-        
+
+# 각 위치별 끝나는 시간
 class StartTime(db.Model):
     
     __tablename__ = 'StartTime'
